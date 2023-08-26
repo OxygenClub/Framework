@@ -66,6 +66,10 @@ local Utility = {
     end
 
     function Utility:GetRootPart(humanoid: userdata)
+        if not humanoid then
+            return
+        end
+
         return humanoid.RootPart
     end
 
@@ -82,14 +86,14 @@ local Utility = {
             return false
         end
 
-        if Humanoid.Health <= 0 then
+        local Health = Humanoid.Health
+        if Health <= 0 then
             return false
         end
 
-        local RootPart = self:GetRootPart(Humanoid)
-
+        local RootPart = Utility:GetRootPart(Humanoid)
         if not RootPart then
-            return false
+            return
         end
 
         return true
@@ -110,6 +114,14 @@ local Utility = {
             return text:lower()
         else
             return text
+        end
+    end
+    
+    function Utility:Default(tbl: table, values: table)
+        for _,v in next, values do
+            if tbl[_] == nil then
+                tbl[_] = v
+            end
         end
     end
 
